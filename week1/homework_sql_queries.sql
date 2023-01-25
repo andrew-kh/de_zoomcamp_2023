@@ -28,14 +28,16 @@ order by 1 asc
 -- Q6: Long Island City/Queens Plaza
 SELECT dz."Zone"
 FROM
-(SELECT gt."DOLocationID", max(tip_amount) max_tip
-FROM ny_taxi.public.fct_green_trips gt
-LEFT JOIN ny_taxi.public.dim_zones dz
-ON gt."PULocationID" = dz."LocationID"
-WHERE dz."Zone" = 'Astoria'
-GROUP BY 1
-ORDER BY max_tip DESC
-) mt
+    (SELECT
+        gt."DOLocationID",
+        max(tip_amount) max_tip
+    FROM ny_taxi.public.fct_green_trips gt
+    LEFT JOIN ny_taxi.public.dim_zones dz
+    ON gt."PULocationID" = dz."LocationID"
+    WHERE dz."Zone" = 'Astoria'
+    GROUP BY 1
+    ORDER BY max_tip DESC
+    ) mt
 LEFT JOIN ny_taxi.public.dim_zones dz
 ON mt."DOLocationID" = dz."LocationID"
 ORDER BY mt.max_tip DESC
